@@ -3,6 +3,7 @@ import math
 import threading
 import time
 from typing import List, Tuple, Optional
+from dataclasses import dataclass
 
 import rclpy
 from rclpy.node import Node
@@ -15,6 +16,14 @@ import cflib.crtp
 from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.utils.reset_estimator import reset_estimator
+
+@dataclass
+class CrazyflieConfig:
+    # Select controller
+    # '1')  # PID
+    # '3')  # INDI
+    controller: str = "3"
+    controller_str: str = "INDI"
 
 
 class CrazyflieFigure8Stage1(Node):
@@ -45,8 +54,8 @@ class CrazyflieFigure8Stage1(Node):
 
         self.declare_parameter('radius_x', 2.0)
         self.declare_parameter('radius_y', 1.0)
-        self.declare_parameter('num_points_per_loop', 48)
-        self.declare_parameter('num_loops', 2)
+        self.declare_parameter('num_points_per_loop', 40)
+        self.declare_parameter('num_loops', 4)
         self.declare_parameter('loop_duration_s', 8.0)
 
         self.declare_parameter('yaw_rad', 0.0)
@@ -146,8 +155,7 @@ class CrazyflieFigure8Stage1(Node):
 
         if self.enable_csv_logging:
             self.log_dir.mkdir(parents=True, exist_ok=True)
-            stamp = time.strftime('%Y%m%d_%H%M%S')
-            self.csv_path = str(self.log_dir / f'figure8_log_{stamp}.csv')
+            self.csv_path = str(self.log_dir / f'figure8_log_{CrazyflieConfig.controller_str}.csv')
             self.csv_file = open(self.csv_path, 'w', newline='')
             self.csv_writer = csv.writer(self.csv_file)
             self.csv_writer.writerow([
@@ -195,6 +203,14 @@ class CrazyflieFigure8Stage1(Node):
             self.get_logger().info('Set stabilizer.estimator = 2 (Kalman).')
         except Exception as exc:
             self.get_logger().warn(f'Could not set Kalman estimator: {exc}')
+
+        # Select Controller
+        try:
+            self.cf.param.set_value('stabilizer.controller', CrazyflieConfig.controller)   # change this number
+            time.sleep(0.2)
+            self.get_logger().info('Set stabilizer.controller = 1')
+        except Exception as exc:
+            self.get_logger().warn(f'Could not set controller: {exc}')
 
         # PID is the default controller, so we leave controller selection untouched
 

@@ -21,6 +21,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcb-cursor0 \
  && rm -rf /var/lib/apt/lists/*
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    make \
+    gcc-arm-none-eabi \
+    libnewlib-arm-none-eabi \
+    libnewlib-dev \
+ && rm -rf /var/lib/apt/lists/*
+
 # Install PyTorch first
 RUN python3 -m pip install --no-cache-dir \
     torch torchvision torchaudio \
@@ -31,9 +38,12 @@ RUN python3 -m pip install --no-cache-dir --ignore-installed \
     packaging==25.0 \
     gpytorch \
     ipympl \
+    pandas \ 
+    matplotlib \
     ipywidgets \
     pyserial \
     cflib \
+    cfclient \
     pymavlink \
     mujoco
 
