@@ -33,7 +33,7 @@ LINEWIDTH_ERR = 1.8
 
 # Save figure
 SAVE_FIGURE = True
-OUTPUT_NAME = "all_controllers_figure8_and_errors.pdf"
+OUTPUT_NAME = "all_controllers_figure8_and_errors.png"
 DPI = 300
 
 

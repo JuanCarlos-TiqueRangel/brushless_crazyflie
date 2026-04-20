@@ -66,7 +66,7 @@ if __name__ == '__main__':
             mc.back(0.8)
             time.sleep(1)
 
-            mc.up(0.5)
+            mc.up(1.5)
             mc.down(0.5)
             time.sleep(1)
 

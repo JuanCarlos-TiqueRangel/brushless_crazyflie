@@ -99,9 +99,9 @@ class OptiTrackOdometryNode(Node):
         super().__init__("optitrack_odometry_node")
 
         # -------- Parameters --------
-        self.declare_parameter("client_ip", "192.168.0.42")    # your Ubuntu IP
+        self.declare_parameter("client_ip", "192.168.0.123")    # your Ubuntu IP
         self.declare_parameter("server_ip", "192.168.0.4")      # Motive PC IP
-        self.declare_parameter("robot_id", 527)
+        self.declare_parameter("robot_id", 535)
         self.declare_parameter("use_multicast", True)
 
         self.declare_parameter("frame_id", "map")
