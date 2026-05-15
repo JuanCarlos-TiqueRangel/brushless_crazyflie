@@ -13,11 +13,13 @@ LOG_DIR = Path(__file__).resolve().parent
 
 # List of CSV files and display names
 CONTROLLERS = [
-    ("figure8_log_PID.csv", "PID"),
-    ("figure8_log_Mellinger.csv", "Mellinger"),
-    ("figure8_log_INDI.csv", "INDI"),
-    ("figure8_log_Brescianini.csv", "Brescianini"),
-    ("figure8_log_Lee.csv", "Lee"),
+    # ("figure8_log_PID.csv", "PID"),
+    # ("figure8_log_Mellinger.csv", "Mellinger"),
+    # ("figure8_log_INDI.csv", "INDI"),
+    # ("figure8_log_Brescianini.csv", "Brescianini"),
+    # ("figure8_log_Lee.csv", "Lee"),
+    ("figure8_fullstate_Mellinger_20260515_015521.csv", "Mellinger"),
+    ("figure8_contraction_tube_20260515_023022.csv", "contraction_tube"),
 ]
 
 # Font and style settings
@@ -33,7 +35,8 @@ LINEWIDTH_ERR = 1.8
 
 # Save figure
 SAVE_FIGURE = True
-OUTPUT_NAME = "all_controllers_figure8_and_errors.pdf"
+# OUTPUT_NAME = "all_controllers_figure8_and_errors.pdf"
+OUTPUT_NAME = "contraction_metric.pdf"
 DPI = 300
 
 
