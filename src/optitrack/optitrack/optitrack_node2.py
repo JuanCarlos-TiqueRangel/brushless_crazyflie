@@ -101,7 +101,7 @@ class OptiTrackOdometryNode(Node):
         # -------- Parameters --------
         self.declare_parameter("client_ip", "192.168.0.123")    # your Ubuntu IP
         self.declare_parameter("server_ip", "192.168.0.4")      # Motive PC IP
-        self.declare_parameter("robot_id", 706)
+        self.declare_parameter("robot_id", 800)
         self.declare_parameter("use_multicast", True)
 
         self.declare_parameter("frame_id", "map")
@@ -127,8 +127,8 @@ class OptiTrackOdometryNode(Node):
         self.alpha = max(0.0, min(0.99, self.alpha))
 
         # -------- ROS publisher --------
-        self.odom_pub = self.create_publisher(Odometry, "optitrack/odom", 10)
-        self.pub_rpy = self.create_publisher(Vector3, "optitrack/rpy", 10)
+        self.odom_pub = self.create_publisher(Odometry, "optitrack/odom2", 10)
+        self.pub_rpy = self.create_publisher(Vector3, "optitrack/rpy2", 10)
 
         # -------- Data shared with NatNet thread --------
         self._lock = threading.Lock()

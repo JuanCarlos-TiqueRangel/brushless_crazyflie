@@ -1,0 +1,26 @@
+
+# Ignore VSCode generated DB files
+.vscode/
+*.vc.db
+
+# Local git bundle backups
+*.bundle
+repo-backup.bundle
+
+# ignore videos or images
+*.mp4
+*.mov
+*.png
+*.jpg
+
+# Ignore CSV files, pytorch and npz models
+*.csv
+*.pt
+*.npz
+*.pyc
+*.txt
+*.zip
+
+# # folder acados
+# /NMPC/acados/
+
