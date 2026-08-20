@@ -42,14 +42,15 @@ BASE_FIELDS = [
 class CrazyflieHover(Node):
     def __init__(self):
         super().__init__("crazyflie_hover")
-        self.uri = "radio://0/80/2M/E7E7E7E7E7"
+        self.uri = "radio://0/80/2M/E7E7E7E7E7" #SMALL Drone
+        # self.uri = "radio://0/80/2M/E7E7E7EA03"
         self.odom_topic = "optitrack/odom2"
         self.hover_z = 0.6
         self.hover_x = -0.05
         self.hover_y = 0.00
-        self.landing_x = -0.3
+        self.landing_x = -0.4
         self.landing_y = 0.0
-        self.hover_duration = 50.0
+        self.hover_duration = 110.0
         self.takeoff_time = 2.5
         self.move_time = 2.0
         self.landing_time = 4.0
@@ -57,6 +58,7 @@ class CrazyflieHover(Node):
         self.extpos_rate = 100.0
         self.command_rate = 100.0
         self.record_rate = 50.0
+        self.takeoff_settle_time = 20.0
         self.lock = threading.Lock()
         self.cf_lock = threading.Lock()
         self.shutdown_flag = threading.Event()
@@ -203,24 +205,30 @@ class CrazyflieHover(Node):
         self.set_phase("takeoff", 1)
         self.get_logger().info(f"Taking off to {self.hover_z:.2f} m...")
         self.run_vertical_motion(x0, y0, z0, self.hover_z, self.takeoff_time)
-        self.set_phase("move_to_hover", 2)
+        self.set_phase("takeoff_settle", 2)
+        self.get_logger().info(f"Stabilizing for {self.takeoff_settle_time:.1f} seconds...")
+        start = time.perf_counter()
+        while not self.shutdown_flag.is_set() and time.perf_counter() - start < self.takeoff_settle_time:
+            self.send_setpoint(x0, y0, self.hover_z)
+            time.sleep(1.0 / self.command_rate)
+        self.set_phase("move_to_hover", 3)
         self.run_horizontal_motion(x0, y0, self.hover_x, self.hover_y, self.hover_z, self.move_time)
-        self.set_phase("hover", 3)
+        self.set_phase("hover", 4)
         self.get_logger().info(f"Hovering for {self.hover_duration:.1f} seconds...")
         start = time.perf_counter()
         while not self.shutdown_flag.is_set() and time.perf_counter() - start < self.hover_duration:
             self.send_setpoint(self.hover_x, self.hover_y, self.hover_z)
             time.sleep(1.0 / self.command_rate)
-        self.set_phase("return_to_origin", 4)
+        self.set_phase("return_to_origin", 5)
         self.run_horizontal_motion(self.hover_x, self.hover_y, self.landing_x, self.landing_y, self.hover_z, self.move_time)
-        self.set_phase("landing", 5)
+        self.set_phase("landing", 6)
         self.get_logger().info("Landing...")
         self.run_vertical_motion(self.landing_x, self.landing_y, self.hover_z, z0, self.landing_time)
         start = time.perf_counter()
         while not self.shutdown_flag.is_set() and time.perf_counter() - start < self.landing_settle_time:
             self.send_setpoint(self.landing_x, self.landing_y, z0)
             time.sleep(1.0 / self.command_rate)
-        self.set_phase("landed", 6)
+        self.set_phase("landed", 7)
         self.stop_motors()
         self.get_logger().info(f"Landed. Data saved to {self.csv_path}")
         self.shutdown_flag.set()

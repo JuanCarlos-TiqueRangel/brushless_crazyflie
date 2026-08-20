@@ -6,7 +6,7 @@ import sys
 import matplotlib.pyplot as plt
 import pandas as pd
 
-files = glob.glob("crazyflie_hover_*.csv")
+files = glob.glob("exp7/crazyflie_lower_*.csv")
 if len(sys.argv) == 1 and not files:
     raise FileNotFoundError("No crazyflie_hover_*.csv file was found")
 csv_path = sys.argv[1] if len(sys.argv) > 1 else max(files, key=os.path.getmtime)
