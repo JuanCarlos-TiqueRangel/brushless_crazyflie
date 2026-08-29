@@ -45,7 +45,9 @@ RUN python3 -m pip install --no-cache-dir --ignore-installed \
     cflib \
     cfclient \
     pymavlink \
-    mujoco
+    mujoco \
+    rowan \
+    transforms3d
 
 WORKDIR /ros_ws
 RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc

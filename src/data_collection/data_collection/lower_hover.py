@@ -17,18 +17,18 @@ LOG_BLOCKS = {
     "estimate": (40, ["stateEstimate.x", "stateEstimate.y", "stateEstimate.z", "stateEstimate.vx", "stateEstimate.vy", "stateEstimate.vz"]),
     "state_acc": (40, ["stateEstimate.ax", "stateEstimate.ay", "stateEstimate.az"]),
     "quaternion": (40, ["stateEstimate.qx", "stateEstimate.qy", "stateEstimate.qz", "stateEstimate.qw"]),
-    "attitude": (20, ["stabilizer.roll", "stabilizer.pitch", "stabilizer.yaw", "stabilizer.thrust"]),
-    "imu": (20, ["acc.x", "acc.y", "acc.z", "gyro.x", "gyro.y", "gyro.z"]),
-    "motors": (20, ["motor.m1", "motor.m2", "motor.m3", "motor.m4"]),
-    "motor_req": (20, ["motor.m1req", "motor.m2req", "motor.m3req", "motor.m4req"]),
-    "mellinger_cmd": (20, ["ctrlMel.cmd_roll", "ctrlMel.cmd_pitch", "ctrlMel.cmd_yaw", "ctrlMel.cmd_thrust"]),
+    "attitude": (40, ["stabilizer.roll", "stabilizer.pitch", "stabilizer.yaw", "stabilizer.thrust"]),
+    "imu": (40, ["acc.x", "acc.y", "acc.z", "gyro.x", "gyro.y", "gyro.z"]),
+    "motors": (40, ["motor.m1", "motor.m2", "motor.m3", "motor.m4"]),
+    "motor_req": (40, ["motor.m1req", "motor.m2req", "motor.m3req", "motor.m4req"]),
+    "mellinger_cmd": (40, ["ctrlMel.cmd_roll", "ctrlMel.cmd_pitch", "ctrlMel.cmd_yaw", "ctrlMel.cmd_thrust"]),
     "mellinger_state": (40, ["ctrlMel.r_roll", "ctrlMel.r_pitch", "ctrlMel.r_yaw", "ctrlMel.accelz", "ctrlMel.zdx", "ctrlMel.zdy"]),
     "mellinger_error": (40, ["ctrlMel.zdz", "ctrlMel.i_err_x", "ctrlMel.i_err_y", "ctrlMel.i_err_z"]),
-    "target_pos": (100, ["ctrltarget.x", "ctrltarget.y", "ctrltarget.z", "ctrltarget.vx", "ctrltarget.vy", "ctrltarget.vz"]),
-    "target_acc": (100, ["ctrltarget.ax", "ctrltarget.ay", "ctrltarget.az", "ctrltarget.roll", "ctrltarget.pitch", "ctrltarget.yaw"]),
-    "power": (200, ["ctrltarget.thrust", "pm.vbat", "pm.batteryLevel", "pm.state", "pm.chargeCurrent"]),
-    "status": (200, ["radio.rssi", "radio.isConnected", "radio.numRxBc", "radio.numRxUc", "supervisor.info", "supervisor.accNorm"]),
-    "environment": (200, ["baro.asl", "baro.pressure", "baro.temp", "mag.x", "mag.y", "mag.z"]),
+    #"target_pos": (100, ["ctrltarget.x", "ctrltarget.y", "ctrltarget.z", "ctrltarget.vx", "ctrltarget.vy", "ctrltarget.vz"]),
+    #"target_acc": (100, ["ctrltarget.ax", "ctrltarget.ay", "ctrltarget.az", "ctrltarget.roll", "ctrltarget.pitch", "ctrltarget.yaw"]),
+    #"power": (200, ["ctrltarget.thrust", "pm.vbat", "pm.batteryLevel", "pm.state", "pm.chargeCurrent"]),
+    #"status": (200, ["radio.rssi", "radio.isConnected", "radio.numRxBc", "radio.numRxUc", "supervisor.info", "supervisor.accNorm"]),
+    #"environment": (200, ["baro.asl", "baro.pressure", "baro.temp", "mag.x", "mag.y", "mag.z"]),
 }
 BASE_FIELDS = [
     "time_s", "unix_time_s", "phase", "phase_id", "odom_received",
@@ -42,11 +42,11 @@ BASE_FIELDS = [
 class CrazyflieHover(Node):
     def __init__(self):
         super().__init__("crazyflie_hover")
-        self.uri = "radio://0/80/2M/E7E7E7E7E7" #SMALL Drone
-        # self.uri = "radio://0/80/2M/E7E7E7EA03"
+        #self.uri = "radio://0/80/2M/E7E7E7E7E7" #SMALL Drone
+        self.uri = "radio://0/80/2M/E7E7E7EA03"
         self.odom_topic = "optitrack/odom2"
-        self.hover_z = 0.6
-        self.hover_x = -0.05
+        self.hover_z = 1.2
+        self.hover_x = 0.1
         self.hover_y = 0.00
         self.landing_x = -0.4
         self.landing_y = 0.0

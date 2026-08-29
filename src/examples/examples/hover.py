@@ -22,7 +22,7 @@ class CrazyflieHover(Node):
         # SETTINGS
         # --------------------------------------------------
         # self.uri = "radio://0/80/2M/E7E7E7EA01"
-        self.uri = "radio://0/80/2M/E7E7E7E7E7"
+        self.uri = "radio://1/90/2M/E7E7E7EA06"
         self.odom_topic = "optitrack/odom"
 
         self.hover_z = 0.5          # meters
